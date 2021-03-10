@@ -15,28 +15,28 @@
 (def nrows 4)
 (def ncols 5)
 
-(def α (/ π 12))                        ; curvature along the columns
-(def β (/ π 36))                        ; curvature along the rows
+(def α (/ π 108))                        ; curvature along the columns
+(def β (/ π 108))                        ; curvature along the rows
 (def centerrow (- nrows 3))             ; controls front-back tilt
-(def centercol 4)                       ; controls left-right tilt / tenting (higher number is more tenting)
-(def tenting-angle (/ π 10))            ; or, change this for more precise tenting control
+(def centercol 1)                       ; controls left-right tilt / tenting (higher number is more tenting)
+(def tenting-angle (/ π 108))            ; or, change this for more precise tenting control
 (def column-style
   (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
 ; (def column-style :fixed)
 (def pinky-15u false)
 
 (defn column-offset [column] (cond
-                               (= column 2) [0 2.82 -4.5] ; middle finger
-                               (= column 3) [0 0 -2] ; ring finger
+                               (= column 2) [0 0 0] ; middle finger
+                               (= column 3) [0 0 0] ; ring finger
                                ;(>= column 4) [0 0 0]            ; keep pinky in line with first rows
-                               (>= column 4) [0 -3 -3]            ; original [0 -5.8 5.64]
+                               (>= column 4) [0 0 0]            ; original [0 -5.8 5.64]
                                :else [0 0 0]))
 
-(def thumb-offsets [6 -3 7]) ; location of thumb cluster relative to main keyboard body
+(def thumb-offsets [6 -3 5]) ; location of thumb cluster relative to main keyboard body
 
 (def keyboard-z-offset 10)               ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 
-(def extra-width 2)                   ; extra space between the base of keys; original= 2
+(def extra-width 0.5)                   ; extra space between the base of keys; original= 2
 (def extra-height 0.5)                  ; original= 0.5
 
 (def wall-z-offset -3)                 ; original=-15 length of the first downward-sloping part of the wall (negative)
@@ -115,7 +115,7 @@
       (rotate (/ π 2) [0 0 1])))))
 
 ;;;;;;;;;;;;;;;;
-;; SA Keycaps ;;
+;; DSA Keycaps ;;
 ;;;;;;;;;;;;;;;;
 
 (def sa-length 18.25)
@@ -322,41 +322,41 @@
 
 (defn thumb-tr-place [shape]
   (->> shape
-       (rotate (deg2rad  14) [1 0 0])
-       (rotate (deg2rad -15) [0 1 0])
+       ;; (rotate (deg2rad  14) [1 0 0])
+       ;; (rotate (deg2rad -15) [0 1 0])
        (rotate (deg2rad  10) [0 0 1]) ; original 10
        (translate thumborigin)
-       (translate [-15 -10 5]))) ; original 1.5u  (translate [-12 -16 3])
+       (translate [-15 -10 0]))) ; original 1.5u  (translate [-12 -16 3])
 (defn thumb-tl-place [shape]
   (->> shape
-       (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -23) [0 1 0])
+       ;; (rotate (deg2rad  10) [1 0 0])
+       ;; (rotate (deg2rad -23) [0 1 0])
        (rotate (deg2rad  25) [0 0 1]) ; original 10
        (translate thumborigin)
-       (translate [-34 -15.15 -1.4]))) ; original (translate [-35 -16 -2])))
+       (translate [-34 -15.15 0]))) ; original (translate [-35 -16 -2])))
 
 
 (defn thumb-mr-place [shape]
   (->> shape
-       (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -23) [0 1 0])
+       ;; (rotate (deg2rad  10) [1 0 0])
+       ;; (rotate (deg2rad -23) [0 1 0])
        (rotate (deg2rad  25) [0 0 1])
        (translate thumborigin)
-       (translate [-21 -33 -4.3]))) ; (translate [-23 -34 -6])
+       (translate [-21 -33 0]))) ; (translate [-23 -34 -6])
 (defn thumb-br-place [shape]
   (->> shape
-       (rotate (deg2rad   6) [1 0 0])
-       (rotate (deg2rad -34) [0 1 0])
+       ;; (rotate (deg2rad   6) [1 0 0])
+       ;; (rotate (deg2rad -34) [0 1 0])
        (rotate (deg2rad  35) [0 0 1])
        (translate thumborigin)
-       (translate [-36 -42 -13.7]))) ; (translate [-39 -43 -16])
+       (translate [-36 -42 0]))) ; (translate [-39 -43 -16])
 (defn thumb-bl-place [shape]
   (->> shape
-       (rotate (deg2rad   6) [1 0 0])
-       (rotate (deg2rad -32) [0 1 0])
+       ;; (rotate (deg2rad   6) [1 0 0])
+       ;; (rotate (deg2rad -32) [0 1 0])
        (rotate (deg2rad  35) [0 0 1])
        (translate thumborigin)
-       (translate [-48.5 -24 -10.3]))) ;        (translate [-51 -25 -12])))
+       (translate [-48.5 -24 0]))) ;        (translate [-51 -25 -12])))
 
 
 (defn thumb-1x-layout [shape]
@@ -432,19 +432,6 @@
     (thumb-tl-place web-post-br)
     (thumb-mr-place web-post-tr))
    (triangle-hulls    ; top two to the main keyboard, starting on the left
-    (thumb-tl-place web-post-tl)
-    (key-place 0 cornerrow web-post-bl)
-    (thumb-tl-place web-post-tr)
-    (key-place 0 cornerrow web-post-br)
-    (thumb-tr-place thumb-post-tl)
-    (key-place 1 cornerrow web-post-bl)
-    (thumb-tr-place thumb-post-tr)
-    (key-place 1 cornerrow web-post-br)
-    (key-place 2 lastrow web-post-tl)
-    (key-place 2 lastrow web-post-bl)
-    (thumb-tr-place thumb-post-tr)
-    (key-place 2 lastrow web-post-bl)
-    (thumb-tr-place thumb-post-br)
     (key-place 2 lastrow web-post-br)
     (key-place 3 lastrow web-post-bl)
     (key-place 2 lastrow web-post-tr)
@@ -558,36 +545,39 @@
    ; thumb tweeners
    (wall-brace thumb-mr-place  0 -1 web-post-bl thumb-br-place  0 -1 web-post-br)
    (wall-brace thumb-bl-place -1  0 web-post-bl thumb-br-place -1  0 web-post-tl)
-   (wall-brace thumb-tr-place  0 -1 thumb-post-br (partial key-place 3 lastrow)  0 -1 web-post-bl)
-   ; clunky bit on the top left thumb connection  (normal connectors don't work well)
-   (bottom-hull
-    (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
-    (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
-    (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
-    (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr)))
-   (hull
-    (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
-    (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
-    (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
-    (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr))
-    (thumb-tl-place web-post-tl))
-   (hull
-    (left-key-place cornerrow -1 web-post)
-    (left-key-place cornerrow -1 (translate (wall-locate1 -1 0) web-post))
-    (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
-    (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
-    (thumb-tl-place web-post-tl))
-   (hull
-    (left-key-place cornerrow -1 web-post)
-    (left-key-place cornerrow -1 (translate (wall-locate1 -1 0) web-post))
-    (key-place 0 cornerrow web-post-bl)
-    (thumb-tl-place web-post-tl))
-   (hull
-    (thumb-bl-place web-post-tr)
-    (thumb-bl-place (translate (wall-locate1 -0.3 1) web-post-tr))
-    (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
-    (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr))
-    (thumb-tl-place web-post-tl))))
+   ;; remove the section of wall connecting the top right thumb key to the bottom key of the middle finger colomn
+   ;; (wall-brace thumb-tr-place  0 -1 thumb-post-br (partial key-place 3 lastrow)  0 -1 web-post-bl)
+                                        ; clunky bit on the top left thumb connection  (normal connectors don't work well)
+   ;; remove the connection between the left wall, and the thumb connectors
+   ;; (bottom-hull
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
+   ;;  (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
+   ;;  (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr)))
+   ;; (hull
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
+   ;;  (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
+   ;;  (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr))
+   ;;  (thumb-tl-place web-post-tl))
+   ;; (hull
+   ;;  (left-key-place cornerrow -1 web-post)
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate1 -1 0) web-post))
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate2 -1 0) web-post))
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate3 -1 0) web-post))
+   ;;  (thumb-tl-place web-post-tl))
+   ;; (hull
+   ;;  (left-key-place cornerrow -1 web-post)
+   ;;  (left-key-place cornerrow -1 (translate (wall-locate1 -1 0) web-post))
+   ;;  (key-place 0 cornerrow web-post-bl)
+   ;;  (thumb-tl-place web-post-tl))
+   ;; (hull
+   ;;  (thumb-bl-place web-post-tr)
+   ;;  (thumb-bl-place (translate (wall-locate1 -0.3 1) web-post-tr))
+   ;;  (thumb-bl-place (translate (wall-locate2 -0.3 1) web-post-tr))
+   ;;  (thumb-bl-place (translate (wall-locate3 -0.3 1) web-post-tr))
+   ;;  (thumb-tl-place web-post-tl)
+    ))
 
 (def usb-holder-ref (key-position 0 0 (map - (wall-locate2  0  -1) [0 (/ mount-height 2) 0])))
 
@@ -706,14 +696,16 @@
                    thumb
                    thumb-connectors
                    (difference (union case-walls
-                                      screw-insert-outers
-                                      pro-micro-holder
-                                      usb-holder-holder
-                                      trrs-holder)
+                                      ;screw-insert-outers
+                                      ;pro-micro-holder
+                                      ;usb-holder-holder
+                                      ;trrs-holder
+                                      )
                                usb-holder-space
                                usb-jack
                                trrs-holder-hole
-                               screw-insert-holes))
+                               ;screw-insert-holes
+                               ))
                   (translate [0 0 -20] (cube 350 350 40))))
 
 (spit "things/right.scad"
