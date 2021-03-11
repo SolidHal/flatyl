@@ -15,11 +15,11 @@
 (def nrows 4)
 (def ncols 5)
 
-(def α (/ π 108))                        ; curvature along the columns
-(def β (/ π 108))                        ; curvature along the rows
+(def α (/ π 360))                        ; curvature along the columns
+(def β (/ π 360))                        ; curvature along the rows
 (def centerrow (- nrows 3))             ; controls front-back tilt
 (def centercol 1)                       ; controls left-right tilt / tenting (higher number is more tenting)
-(def tenting-angle (/ π 108))            ; or, change this for more precise tenting control
+(def tenting-angle (/ π 360))            ; or, change this for more precise tenting control
 (def column-style
   (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
 ; (def column-style :fixed)
@@ -317,7 +317,7 @@
 ;;;;;;;;;;;;
 
 (def thumborigin
-  (map + (key-position 1 cornerrow [(/ mount-width 2) (- (/ mount-height 2)) 0])
+  (map + (key-position 1 cornerrow [(/ mount-width 2) (- (/ mount-height 2)) -5])
        thumb-offsets))
 
 (defn thumb-tr-place [shape]
